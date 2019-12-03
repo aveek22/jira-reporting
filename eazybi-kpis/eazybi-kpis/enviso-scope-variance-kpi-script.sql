@@ -4,7 +4,7 @@
 	Description:	This script is used to create a data cube in EazyBI on which multiple reports
 					can be developed. These reports are to be used by the management team to 
 					manage and streamline the ongoing processes.
-	Date:			29-Nov-2019
+	Date:			03-Dec-2019
 
 */
 
@@ -58,7 +58,7 @@ WITH cte_ProjectCategory AS (
  -- * PMO Planned Portfolio Version
  -- * PMO Planned App Version
  ----------------------------------------------------------------------------------------------------
- /*,cte_IssueFixVersion AS (
+ ,cte_IssueFixVersion AS (
 	SELECT 
 		nodeassociation.SOURCE_NODE_ID					AS IssueID
 		,[projectversion].[vname]						AS [Version]
@@ -68,7 +68,7 @@ WITH cte_ProjectCategory AS (
 	FROM jiraschema.nodeassociation
 	LEFT OUTER JOIN jiraschema.projectversion ON nodeassociation.sink_node_id  = projectversion.id
 	WHERE nodeassociation.ASSOCIATION_TYPE = 'IssueFixVersion'
- )*/
+ )
  ----------------------------------------------------------------------------------------------------
  -- Building the PlannedPortfolioVersion table by extracting the Label value
  ----------------------------------------------------------------------------------------------------
@@ -110,6 +110,12 @@ SELECT
 	[jiraissue].[ID]												AS [IssueID]
     ,CONCAT([project].[pkey],'-',[jiraissue].[issuenum])			AS [IssueKey]
 	,[issuetype].[pname]											AS [IssueType]
+	,CASE 
+		WHEN [priority].[pname] = 'Must'	THEN 1
+		WHEN [priority].[pname] = 'Should'	THEN 2
+		WHEN [priority].[pname] = 'Could'	THEN 3
+		WHEN [priority].[pname] = 'Would'	THEN 4
+	END																AS [IssuePriorityKey]
 	,[priority].[pname]												AS [IssuePriority]
 	,[issuestatus].[pname]											AS [IssueStatus]
 	,CASE 
@@ -119,13 +125,28 @@ SELECT
 			THEN 'Enviso'
 	END																AS [Portfolio]
 	,[cte_PortfolioVersions].[PortfolioVersionLabel]				AS [PortfolioVersionLabel]
-	,[cte_PortfolioVersions].[PortfolioVersion]						AS [PortfolioVersion]
+	,CONCAT(
+		CASE 
+			WHEN [cte_ProjectCategory].[ProjectCategory] LIKE '%RCX%'	
+				THEN 'ReCreateX'
+			WHEN [cte_ProjectCategory].[ProjectCategory] LIKE '%NG%'	
+				THEN 'Enviso'
+		END
+		,' '
+		,[cte_PortfolioVersions].[PortfolioVersion]					
+	)																AS [PortfolioVersion]
+	--,[cte_PortfolioVersions].[PortfolioVersion]						AS [PortfolioVersion]
     ,[cte_ProjectCategory].[ProjectCategory]						AS [Category]
 	,[project].[pname]												AS [App]
 	,[cte_AppVersions].[AppVersionLabel]							AS [AppVersionLabel]
-	,[cte_AppVersions].[AppVersion]									AS [AppVersion]
+	,CONCAT(
+		[project].[pname]
+		,' '
+		,[cte_AppVersions].[AppVersion]
+	)																AS [AppVersion]
+	--,[cte_AppVersions].[AppVersion]									AS [AppVersion]
 	----[cte_IssueFixVersion].[VersionStatus]				AS VersionStatus,
-	--[cte_IssueFixVersion].[Version]						AS VersionOriginal,
+	--,[cte_IssueFixVersion].[Version]								AS VersionOriginal
 	--CASE 
 	--	WHEN [cte_IssueFixVersion].[Version] IS NULL
 	--	THEN CONCAT(
@@ -153,8 +174,9 @@ INNER JOIN	[jiraschema].[issuestatus]		ON [issuestatus].[id]					= [jiraissue].[
 INNER JOIN	[cte_PortfolioVersions]			ON [cte_PortfolioVersions].[IssueID]	= [jiraissue].[ID]
 INNER JOIN	[cte_AppVersions]				ON [cte_AppVersions].[IssueID]			= [jiraissue].[ID]
 INNER JOIN	[cte_EpicStoryPoints]			ON [cte_EpicStoryPoints].[IssueID]		= [jiraissue].[ID]
---LEFT OUTER JOIN cte_IssueFixVersion ON cte_IssueFixVersion.IssueID = jiraissue.id
+--INNER JOIN	[cte_IssueFixVersion]			ON [cte_IssueFixVersion].[IssueID]		= [jiraissue].[id]
 --LEFT OUTER JOIN cte_SprintDetails ON cte_SprintDetails.IssueID = jiraissue.ID
 WHERE 1 = 1
 AND [jiraissue].[issuetype]	IN (7)											-- 7=Epic
 AND [jiraissue].[priority]	IN (10000,10001,10002,10003)					-- Must,Should,Could,Would
+--AND [jiraissue].[issuenum] = 2921
