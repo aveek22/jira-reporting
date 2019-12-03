@@ -27,16 +27,10 @@
                         "caption": "Enviso",
                         "expanded": true,
                         "drilled_into": false
-                    },
-                    {
-                        "depth": 2,
-                        "name": "Enviso 1.1.0",
-                        "full_name": "[Portfolio].[Enviso].[Enviso 1.1.0]",
-                        "caption": "Enviso 1.1.0"
                     }
                 ],
                 "current_page_members": [
-                    "[Portfolio].[Enviso].[Enviso 1.1.0]"
+                    "[Portfolio].[All Portfolios]"
                 ]
             },
             {
@@ -75,12 +69,6 @@
                         "caption": "NG_SALES"
                     },
                     {
-                        "depth": 3,
-                        "name": "NG_SALES 1.5.0",
-                        "full_name": "[App].[NG_APP].[NG_SALES].[NG_SALES 1.5.0]",
-                        "caption": "NG_SALES 1.5.0"
-                    },
-                    {
                         "depth": 1,
                         "name": "NG_CORE",
                         "full_name": "[App].[NG_CORE]",
@@ -100,7 +88,7 @@
                     }
                 ],
                 "current_page_members": [
-                    "[App].[NG_APP].[NG_SALES].[NG_SALES 1.5.0]"
+                    "[App].[All Apps]"
                 ]
             }
         ],
@@ -526,8 +514,8 @@
                                 {
                                     "name": "Measures",
                                     "selected_set": [
-                                        "[Measures].[PlannedNoEmpty]",
-                                        "[Measures].[DeliveredNoEmpty]",
+                                        "[Measures].[Planned]",
+                                        "[Measures].[Delivered]",
                                         "[Measures].[ScopeVariance]"
                                     ],
                                     "members": []
@@ -627,19 +615,19 @@
                 {
                     "name": "ScopeVariance",
                     "dimension": "Measures",
-                    "formula": "IIf([Measures].[PlannedNoEmpty] =0,0,\n[Measures].[DeliveredNoEmpty] / [Measures].[PlannedNoEmpty])",
+                    "formula": "IIf([Measures].[Planned] =0,0,\n[Measures].[Delivered] / [Measures].[Planned])",
                     "format_string": "#0.00%"
                 },
                 {
-                    "name": "PlannedNoEmpty",
+                    "name": "Planned",
                     "dimension": "Measures",
-                    "formula": "CoalesceEmpty([Measures].[Planned],0)",
+                    "formula": "CoalesceEmpty([Measures].[StoryPointsPlanned],0)",
                     "format_string": "#,##0.00"
                 },
                 {
-                    "name": "DeliveredNoEmpty",
+                    "name": "Delivered",
                     "dimension": "Measures",
-                    "formula": "CoalesceEmpty([Measures].[Delivered],0)",
+                    "formula": "CoalesceEmpty([Measures].[StoryPointsDelivered],0)",
                     "format_string": "#,##0.00"
                 }
             ]
