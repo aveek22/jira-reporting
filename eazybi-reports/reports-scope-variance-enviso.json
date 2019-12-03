@@ -146,7 +146,7 @@
             }
         },
         {
-            "name": "Enviso_ScopeVarianceKPI_Pie",
+            "name": "Enviso_ScopeVarianceKPI_MOSCOW_Pie",
             "result_view": "pie_chart",
             "definition": {
                 "columns": {
@@ -254,82 +254,9 @@
                         {
                             "name": "App",
                             "selected_set": [
-                                "[App].[All Apps]"
+                                "[App].[App].Members"
                             ],
-                            "members": [
-                                {
-                                    "depth": 0,
-                                    "name": "All Apps",
-                                    "full_name": "[App].[All Apps]",
-                                    "drillable": true,
-                                    "type": "all",
-                                    "expanded": true,
-                                    "drilled_into": false
-                                },
-                                {
-                                    "depth": 1,
-                                    "name": "NG_APP",
-                                    "full_name": "[App].[NG_APP]",
-                                    "drillable": true,
-                                    "expanded": true,
-                                    "drilled_into": false,
-                                    "parent_full_name": "[App].[All Apps]"
-                                },
-                                {
-                                    "depth": 2,
-                                    "name": "NG_ATTRACTIONS",
-                                    "full_name": "[App].[NG_APP].[NG_ATTRACTIONS]",
-                                    "drillable": true,
-                                    "expanded": true,
-                                    "drilled_into": false,
-                                    "parent_full_name": "[App].[NG_APP]"
-                                },
-                                {
-                                    "depth": 2,
-                                    "name": "NG_CITIES",
-                                    "full_name": "[App].[NG_APP].[NG_CITIES]",
-                                    "drillable": true,
-                                    "expanded": true,
-                                    "drilled_into": false,
-                                    "parent_full_name": "[App].[NG_APP]"
-                                },
-                                {
-                                    "depth": 2,
-                                    "name": "NG_SALES",
-                                    "full_name": "[App].[NG_APP].[NG_SALES]",
-                                    "drillable": true,
-                                    "expanded": true,
-                                    "drilled_into": false,
-                                    "parent_full_name": "[App].[NG_APP]"
-                                },
-                                {
-                                    "depth": 1,
-                                    "name": "NG_CORE",
-                                    "full_name": "[App].[NG_CORE]",
-                                    "drillable": true,
-                                    "expanded": true,
-                                    "drilled_into": false,
-                                    "parent_full_name": "[App].[All Apps]"
-                                },
-                                {
-                                    "depth": 2,
-                                    "name": "NG_CONSOLE",
-                                    "full_name": "[App].[NG_CORE].[NG_CONSOLE]",
-                                    "drillable": true,
-                                    "expanded": true,
-                                    "drilled_into": false,
-                                    "parent_full_name": "[App].[NG_CORE]"
-                                },
-                                {
-                                    "depth": 2,
-                                    "name": "NG_PLATFORM",
-                                    "full_name": "[App].[NG_CORE].[NG_PLATFORM]",
-                                    "drillable": true,
-                                    "expanded": true,
-                                    "drilled_into": false,
-                                    "parent_full_name": "[App].[NG_CORE]"
-                                }
-                            ],
+                            "members": [],
                             "bookmarked_members": []
                         }
                     ],
@@ -465,17 +392,11 @@
                                     "expanded": true,
                                     "drilled_into": false,
                                     "parent_full_name": "[App].[NG_CORE]"
-                                },
-                                {
-                                    "depth": 3,
-                                    "name": "1.8.0",
-                                    "full_name": "[App].[NG_CORE].[NG_PLATFORM].[1.8.0]",
-                                    "parent_full_name": "[App].[NG_CORE].[NG_PLATFORM]"
                                 }
                             ],
                             "bookmarked_members": [],
                             "current_page_members": [
-                                "[App].[NG_CORE].[NG_PLATFORM].[1.8.0]"
+                                "[App].[All Apps]"
                             ]
                         }
                     ]

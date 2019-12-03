@@ -145,8 +145,8 @@ SELECT
 		,[cte_AppVersions].[AppVersion]
 	)																AS [AppVersion]
 	--,[cte_AppVersions].[AppVersion]									AS [AppVersion]
-	----[cte_IssueFixVersion].[VersionStatus]				AS VersionStatus,
-	--,[cte_IssueFixVersion].[Version]								AS VersionOriginal
+	--[cte_IssueFixVersion].[VersionStatus]				AS VersionStatus,
+	,[cte_IssueFixVersion].[Version]								AS VersionOriginal
 	--CASE 
 	--	WHEN [cte_IssueFixVersion].[Version] IS NULL
 	--	THEN CONCAT(
@@ -161,7 +161,16 @@ SELECT
 	----[cte_SprintDetails].[SprintName]					AS [SprintName],
     ,ISNULL([cte_EpicStoryPoints].[EpicStoryPoints],0)				AS [StoryPointsPlanned]
 	,CASE 
-		WHEN [issuestatus].[pname] IN ('CLOSED','Awaiting Release')
+		WHEN (
+			-- Consider only these statuses for Delivered Story Points
+			[issuestatus].[pname] IN ('CLOSED','Awaiting Release')		
+
+			-- Check if both PMOPlannedAppVersion and FixVersion are same
+			-- Only then calculate Delivered Story Point..
+			-- Otherwise Delivered will also be calculated for those versions  
+			-- for which it was only planned
+			AND [cte_AppVersions].[AppVersion] = [cte_IssueFixVersion].[Version]
+		)
 		THEN ISNULL([cte_EpicStoryPoints].[EpicStoryPoints],0)
 		ELSE 0
 	END																AS [StoryPointsDelivered]
@@ -174,9 +183,9 @@ INNER JOIN	[jiraschema].[issuestatus]		ON [issuestatus].[id]					= [jiraissue].[
 INNER JOIN	[cte_PortfolioVersions]			ON [cte_PortfolioVersions].[IssueID]	= [jiraissue].[ID]
 INNER JOIN	[cte_AppVersions]				ON [cte_AppVersions].[IssueID]			= [jiraissue].[ID]
 INNER JOIN	[cte_EpicStoryPoints]			ON [cte_EpicStoryPoints].[IssueID]		= [jiraissue].[ID]
---INNER JOIN	[cte_IssueFixVersion]			ON [cte_IssueFixVersion].[IssueID]		= [jiraissue].[id]
+INNER JOIN	[cte_IssueFixVersion]			ON [cte_IssueFixVersion].[IssueID]		= [jiraissue].[id]
 --LEFT OUTER JOIN cte_SprintDetails ON cte_SprintDetails.IssueID = jiraissue.ID
 WHERE 1 = 1
 AND [jiraissue].[issuetype]	IN (7)											-- 7=Epic
 AND [jiraissue].[priority]	IN (10000,10001,10002,10003)					-- Must,Should,Could,Would
---AND [jiraissue].[issuenum] = 2921
+AND [jiraissue].[issuenum] = 2921
