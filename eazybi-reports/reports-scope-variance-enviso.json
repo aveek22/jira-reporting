@@ -392,8 +392,8 @@
                         {
                             "name": "Measures",
                             "selected_set": [
-                                "[Measures].[PlannedNoEmpty]",
-                                "[Measures].[DeliveredNoEmpty]",
+                                "[Measures].[Planned]",
+                                "[Measures].[Delivered]",
                                 "[Measures].[ScopeVariance]"
                             ],
                             "members": []
@@ -493,19 +493,19 @@
         {
             "name": "ScopeVariance",
             "dimension": "Measures",
-            "formula": "IIf([Measures].[PlannedNoEmpty] =0,0,\n[Measures].[DeliveredNoEmpty] / [Measures].[PlannedNoEmpty])",
+            "formula": "IIf([Measures].[Planned] =0,0,\n[Measures].[Delivered] / [Measures].[Planned])",
             "format_string": "#0.00%"
         },
         {
-            "name": "PlannedNoEmpty",
+            "name": "Planned",
             "dimension": "Measures",
-            "formula": "CoalesceEmpty([Measures].[Planned],0)",
+            "formula": "CoalesceEmpty([Measures].[StoryPointsPlanned],0)",
             "format_string": "#,##0.00"
         },
         {
-            "name": "DeliveredNoEmpty",
+            "name": "Delivered",
             "dimension": "Measures",
-            "formula": "CoalesceEmpty([Measures].[Delivered],0)",
+            "formula": "CoalesceEmpty([Measures].[StoryPointsDelivered],0)",
             "format_string": "#,##0.00"
         }
     ]
