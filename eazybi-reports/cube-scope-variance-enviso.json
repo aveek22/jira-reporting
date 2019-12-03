@@ -93,14 +93,14 @@
             "data_type": "decimal",
             "scale": 2,
             "dimension": "Measures",
-            "dimension_member": "Planned"
+            "dimension_member": "StoryPointsPlanned"
         },
         {
             "name": "StoryPointsDelivered",
             "data_type": "decimal",
             "scale": 2,
             "dimension": "Measures",
-            "dimension_member": "Delivered"
+            "dimension_member": "StoryPointsDelivered"
         }
     ]
 }
